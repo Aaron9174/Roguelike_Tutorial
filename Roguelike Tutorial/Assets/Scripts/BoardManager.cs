@@ -1,35 +1,53 @@
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
+    public class CellData
+    {
+        public CellData(bool isPassable)
+        {
+            mIsPassable = isPassable;
+        }
+
+        public bool mIsPassable;
+    }
+    private CellData[,] mBoardData;
+
     private Tilemap tilemap;
 
-    public int width;
-    public int height;
-    public Tile[] groundTiles;
-    public Tile[] wallTiles;
+    public int mWidth;
+    public int mHeight;
+    public Tile[] mGroundTiles;
+    public Tile[] mWallTiles;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         tilemap = this.gameObject.GetComponentInChildren<Tilemap>();
-        for (int y = 0; y < height; ++y)
+        mBoardData = new CellData[mWidth, mHeight];
+
+        for (int y = 0; y < mHeight; ++y)
         {
-            bool isOnHeightEdge = isCoordinateOnEdge(y, 0, height);
-            for (int x = 0; x < width; ++x)
+            bool isOnHeightEdge = isCoordinateOnEdge(y, 0, mHeight);
+            for (int x = 0; x < mWidth; ++x)
             {
-                bool isOnWidthEdge = isCoordinateOnEdge(x, 0, width);
+                bool isOnWidthEdge = isCoordinateOnEdge(x, 0, mWidth);
                 if (isOnHeightEdge || isOnWidthEdge)
                 {
-                    int tileNumber = Random.Range(0, wallTiles.Length);
-                    tilemap.SetTile(new Vector3Int(x, y, 0), wallTiles[tileNumber]);
+                    int tileNumber = Random.Range(0, mWallTiles.Length);
+                    tilemap.SetTile(new Vector3Int(x, y, 0), mWallTiles[tileNumber]);
+
+                    mBoardData[x, y] = new CellData(false);
                 }
                 else
                 {
-                    int tileNumber = Random.Range(0, groundTiles.Length);
-                    tilemap.SetTile(new Vector3Int(x, y, 0), groundTiles[tileNumber]);
+                    int tileNumber = Random.Range(0, mGroundTiles.Length);
+                    tilemap.SetTile(new Vector3Int(x, y, 0), mGroundTiles[tileNumber]);
+
+                    mBoardData[x, y] = new CellData(true);
                 }
             }
         }
