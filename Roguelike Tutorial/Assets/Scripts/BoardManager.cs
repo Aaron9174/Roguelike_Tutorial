@@ -1,10 +1,10 @@
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class BoardManager : MonoBehaviour
 {
+    public PlayerScript mPlayer;
+
     public class CellData
     {
         public CellData(bool isPassable)
@@ -51,6 +51,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
                 }
             }
         }
+
+        mPlayer.spawn(this, new Vector2Int(1, 1));        
     }
 
     // Update is called once per frame
@@ -68,10 +70,20 @@ public class NewMonoBehaviourScript : MonoBehaviour
     bool isCoordinateOnEdge(int coordinate, int min, int max)
     {
         bool isEdge = false;
-        if (coordinate == min || coordinate == (max-1))
+        if (coordinate == min || coordinate == (max - 1))
         {
             isEdge = true;
         }
         return isEdge;
+    }
+
+    /**
+     * Converts a 2D cell position to world coordinates
+     * <param name="cellPosition"> The cell position to convert
+     * <returns> the world coordinates 
+     */
+    public Vector3 cellToWorld(Vector2Int cellPosition)
+    {
+        return tilemap.GetCellCenterWorld((Vector3Int)cellPosition); 
     }
 }
