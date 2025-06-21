@@ -61,6 +61,21 @@ public class BoardManager : MonoBehaviour
 
     }
 
+    public bool isPassable(Vector2Int pos)
+    {
+        return mBoardData[pos.x, pos.y].mIsPassable;
+    }
+
+    /**
+     * Converts a 2D cell position to world coordinates
+     * <param name="cellPosition"> The cell position to convert
+     * <returns> the world coordinates 
+     */
+    public Vector3 cellToWorld(Vector2Int cellPosition)
+    {
+        return tilemap.GetCellCenterWorld((Vector3Int)cellPosition);
+    }
+
     /**
      * Determines if the coordinate is on an edge of a range
      * <param name="coordinate"> The coordinate to test
@@ -75,15 +90,5 @@ public class BoardManager : MonoBehaviour
             isEdge = true;
         }
         return isEdge;
-    }
-
-    /**
-     * Converts a 2D cell position to world coordinates
-     * <param name="cellPosition"> The cell position to convert
-     * <returns> the world coordinates 
-     */
-    public Vector3 cellToWorld(Vector2Int cellPosition)
-    {
-        return tilemap.GetCellCenterWorld((Vector3Int)cellPosition); 
     }
 }
