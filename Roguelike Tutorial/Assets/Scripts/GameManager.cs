@@ -2,12 +2,32 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private TurnManager mTurnManager;
+    /// <summary> Gets access to an instance of the game manager </summary>
+    public static GameManager mInstance { get; private set; }
+
+    /// <summary> The turn manager reference </summary>
+    public TurnManager mTurnManager { get; private set; }
+
+    /// <summary> The board manager reference </summary>
     public BoardManager mBoardManager;
 
+    /// <summary> Player controller reference </summary>
     public PlayerController mPlayerController;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Awake()
+    {
+        if (mInstance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        mInstance = this;
+    }
+
+    /// <summary>
+    /// Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// </summary>
     void Start()
     {
         mTurnManager = new TurnManager();
@@ -15,7 +35,9 @@ public class GameManager : MonoBehaviour
         mPlayerController.spawn(mBoardManager, new Vector2Int(1, 1));
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Update is called once per frame
+    /// </summary>
     void Update()
     {
         

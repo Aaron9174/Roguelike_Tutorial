@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
     private Vector2Int mCellPosition;
     private BoardManager mBoardState;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// <summary>
+    /// Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// </summary>
     void Start()
     {
 
@@ -61,6 +63,7 @@ public class PlayerController : MonoBehaviour
 
         if (moveDetected && mBoardState.isPassable(newCellPosition))
         {
+            GameManager.mInstance.mTurnManager.tick();
             moveTo(newCellPosition);
         }
     }
