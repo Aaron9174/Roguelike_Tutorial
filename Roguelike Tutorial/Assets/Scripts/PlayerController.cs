@@ -63,9 +63,14 @@ public class PlayerController : MonoBehaviour
 
         if (moveDetected && mBoardState.isPassable(newCellPosition))
         {
-            GameManager.mInstance.mTurnManager.tick();
-            moveTo(newCellPosition);
+            performMove(newCellPosition);
         }
+    }
+
+    private void performMove(Vector2Int newCellPosition)
+    {
+        GameManager.mInstance.mTurnManager.tick();
+        moveTo(newCellPosition);
     }
 
     private void moveTo(Vector2Int newCellPosition)
