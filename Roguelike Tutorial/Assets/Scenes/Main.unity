@@ -172,7 +172,8 @@ PrefabInstance:
       value: GamePalette
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2791143955722430247, guid: e7c924801023f4936a8604f637840acb, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 9008518819261783545, guid: e7c924801023f4936a8604f637840acb, type: 3}
