@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     /// <summary> Player controller reference </summary>
     public PlayerController mPlayerController;
 
+    /// <summary> The food amount the player currently has </summary>
+    private int mFoodAmount = 100;
+
     void Awake()
     {
         if (mInstance != null)
@@ -31,15 +34,16 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         mTurnManager = new TurnManager();
+        mTurnManager.OnTick += onTurnTick;
+
         mBoardManager.initialize();
         mPlayerController.spawn(mBoardManager, new Vector2Int(1, 1));
     }
 
-    /// <summary>
-    /// Update is called once per frame
-    /// </summary>
-    void Update()
+    /// <summary> Used as a delegate to run once per turn </summary>
+    void onTurnTick()
     {
-        
+        mFoodAmount--;
+        Debug.Log("Current amount of food: " + mFoodAmount);
     }
 }
