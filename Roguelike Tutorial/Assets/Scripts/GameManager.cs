@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
 
     /// <summary> Player controller reference </summary>
     public PlayerController mPlayerController;
+
+    public UIDocument uiDocument;
+    private Label mFoodLabel;
 
     /// <summary> The food amount the player currently has </summary>
     private int mFoodAmount = 100;
@@ -38,12 +42,17 @@ public class GameManager : MonoBehaviour
 
         mBoardManager.initialize();
         mPlayerController.spawn(mBoardManager, new Vector2Int(1, 1));
+
+        VisualElement ve = uiDocument.rootVisualElement;
+        mFoodLabel = ve.Q<Label>("FoodLabel");
+        mFoodLabel.text = "Food : " + mFoodAmount;
     }
 
     /// <summary> Used as a delegate to run once per turn </summary>
     void onTurnTick()
     {
         mFoodAmount--;
+        mFoodLabel.text = "Food: " + mFoodAmount;
         Debug.Log("Current amount of food: " + mFoodAmount);
     }
 }
