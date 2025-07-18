@@ -58,9 +58,15 @@ public class BoardManager : MonoBehaviour
     public Tile[] mWallTiles;
 
     /// <summary>
-    /// Stores the gameobject + sprite to render for the food
+    /// Stores the possible gameobjects + sprites to render for the food
     /// </summary>
-    public GameObject mFoodPrefab;
+    public GameObject[] mFoodPrefabs;
+
+    /// <summary> This is the minimum food amount a level can start with </summary>
+    public int mMinFoodAmount;
+
+    /// <summary> This is the maximum food amound a level can start with </summary>
+    public int mMaxFoodAmount;
 
     /// <summary>
     /// A 2D array containing all of the cell data of the current board state
@@ -174,14 +180,15 @@ public class BoardManager : MonoBehaviour
     /// </summary>
     void generateFood()
     {
-        int foodAmount = 5;
+        int foodAmount = Random.Range(mMinFoodAmount, mMaxFoodAmount);
         for (int i = 0; i < foodAmount; i++)
         {
             int emptyCellIndex = Random.Range(0, mEmptyCells.Count);
             Vector2Int emptyCell = mEmptyCells[emptyCellIndex];
             CellData cell = mBoardData[emptyCell.x, emptyCell.y];
 
-            GameObject newFood = Instantiate(mFoodPrefab);
+            int prefabIndex = Random.Range(0, mFoodPrefabs.Length);
+            GameObject newFood = Instantiate(mFoodPrefabs[prefabIndex]);
             newFood.transform.position = cellToWorld(emptyCell);
             cell.mContainedObject = newFood;
 

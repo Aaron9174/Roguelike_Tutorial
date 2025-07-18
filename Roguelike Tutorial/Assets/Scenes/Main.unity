@@ -214,6 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mBoardManager: {fileID: 617842409}
   mPlayerController: {fileID: 2108414367}
+  uiDocument: {fileID: 1297261319}
 --- !u!4 &477896242
 Transform:
   m_ObjectHideFlags: 0
@@ -273,6 +274,9 @@ MonoBehaviour:
   mWallTiles:
   - {fileID: 11400000, guid: f2870ada293864fc3bdda6bef648bdc9, type: 2}
   - {fileID: 11400000, guid: f2870ada293864fc3bdda6bef648bdc9, type: 2}
+  mFoodPrefab: {fileID: 0}
+  mMinFoodAmount: 1
+  mMaxFoodAmount: 5
 --- !u!156049354 &617842410
 Grid:
   m_ObjectHideFlags: 0
