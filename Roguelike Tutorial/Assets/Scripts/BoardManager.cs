@@ -1,10 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
-using System.Linq;
-using System.Data;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
 
 /// <summary>
 /// Manages the state of the board

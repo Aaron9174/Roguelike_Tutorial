@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -51,8 +52,12 @@ public class GameManager : MonoBehaviour
     /// <summary> Used as a delegate to run once per turn </summary>
     void onTurnTick()
     {
-        mFoodAmount--;
+        changeFood(-1);
         mFoodLabel.text = "Food: " + mFoodAmount;
-        Debug.Log("Current amount of food: " + mFoodAmount);
+    }
+
+    public void changeFood(int amount)
+    {
+        mFoodAmount += amount;
     }
 }

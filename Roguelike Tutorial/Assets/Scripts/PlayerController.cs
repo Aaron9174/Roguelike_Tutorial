@@ -63,13 +63,13 @@ public class PlayerController : MonoBehaviour
 
         if (moveDetected && mBoardState.isPassable(newCellPosition))
         {
-            performMove(newCellPosition);
-
             BoardManager.CellData cellData = mBoardState.getCellData(newCellPosition);
             if (cellData.mContainedObject != null)
             {
                 cellData.mContainedObject.playerEntered();
             }
+
+            performMove(newCellPosition);
         }
     }
 
