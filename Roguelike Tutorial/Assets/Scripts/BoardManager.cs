@@ -3,6 +3,8 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 
 /// <summary>
 /// Manages the state of the board
@@ -32,7 +34,7 @@ public class BoardManager : MonoBehaviour
         /// If the cell contains a game object, it will be stored here
         /// E.G. Food items
         /// </summary>
-        public GameObject mContainedObject;
+        public CellObject mContainedObject;
     }
 
     /// <summary>
@@ -60,7 +62,7 @@ public class BoardManager : MonoBehaviour
     /// <summary>
     /// Stores the possible gameobjects + sprites to render for the food
     /// </summary>
-    public GameObject[] mFoodPrefabs;
+    public FoodObject[] mFoodPrefabs;
 
     /// <summary> This is the minimum food amount a level can start with </summary>
     public int mMinFoodAmount;
@@ -155,6 +157,11 @@ public class BoardManager : MonoBehaviour
         return tilemap.GetCellCenterWorld((Vector3Int)cellPosition);
     }
 
+    public CellData getCellData(Vector2Int pos)
+    {
+        return mBoardData[pos.x, pos.y]; 
+    }
+
     /**
      * Determines if the coordinate is on an edge of a range
      * <param name="coordinate"> The coordinate to test </param>
@@ -188,7 +195,7 @@ public class BoardManager : MonoBehaviour
             CellData cell = mBoardData[emptyCell.x, emptyCell.y];
 
             int prefabIndex = Random.Range(0, mFoodPrefabs.Length);
-            GameObject newFood = Instantiate(mFoodPrefabs[prefabIndex]);
+            FoodObject newFood = Instantiate(mFoodPrefabs[prefabIndex]);
             newFood.transform.position = cellToWorld(emptyCell);
             cell.mContainedObject = newFood;
 
