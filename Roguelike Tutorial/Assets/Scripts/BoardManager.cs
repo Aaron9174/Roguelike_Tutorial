@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using System.Data.Common;
 
 /// <summary>
 /// Manages the state of the board
@@ -63,8 +64,17 @@ public class BoardManager : MonoBehaviour
     /// <summary> This is the minimum food amount a level can start with </summary>
     public int mMinFoodAmount;
 
-    /// <summary> This is the maximum food amound a level can start with </summary>
+    /// <summary> This is the maximum food amount a level can start with </summary>
     public int mMaxFoodAmount;
+
+    /// <summary> The wall prefab to spawn </summary>
+    public WallObject mWallPrefab;
+
+    /// <summary> This is the minimum amount of walls a level can start with </summary>
+    public int mMinWallAmount;
+
+    /// <summary> This is the maximum amount of walls a level can start with </summary>
+    public int mMaxWallAmount;
 
     /// <summary>
     /// A 2D array containing all of the cell data of the current board state
@@ -121,7 +131,10 @@ public class BoardManager : MonoBehaviour
         // Remove the starting point from empty list, since the player will spawn here
         mEmptyCells.Remove(new Vector2Int(1, 1));
 
-        // Generate food on the game board
+        // Generate the walls on the gameboard
+        generateWalls();
+
+        // Generate food on the gameboard
         generateFood();
     }
 
@@ -155,7 +168,12 @@ public class BoardManager : MonoBehaviour
 
     public CellData getCellData(Vector2Int pos)
     {
-        return mBoardData[pos.x, pos.y]; 
+        return mBoardData[pos.x, pos.y];
+    }
+
+    public void setBoardTile(Tile tile, Vector2Int pos)
+    {
+        tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), tile);
     }
 
     /**
@@ -197,6 +215,28 @@ public class BoardManager : MonoBehaviour
 
             // Cell now has a food item, and is no longer empty
             mEmptyCells.Remove(emptyCell);
+        }
+    }
+
+    /// <summary>
+    /// Generates a configured number of walls at the start of each level
+    /// </summary>
+    void generateWalls()
+    {
+        int wallAmount = Random.Range(mMinWallAmount, mMaxWallAmount);
+
+        for (int i = 0; i < wallAmount; i++)
+        {
+            int emptyCellIndex = Random.Range(0, mEmptyCells.Count);
+            Vector2Int emptyCell = mEmptyCells[emptyCellIndex];
+            mEmptyCells.Remove(emptyCell);
+
+            WallObject wall = Instantiate(mWallPrefab);
+            wall.init(emptyCell);
+            wall.transform.position = new Vector3(emptyCell.x, emptyCell.y, 0);
+
+            CellData cell = mBoardData[emptyCell.x, emptyCell.y];
+            cell.mContainedObject = wall;
         }
     }
 }

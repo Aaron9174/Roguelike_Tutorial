@@ -5,5 +5,12 @@ using UnityEngine;
 /// </summary>
 public class CellObject : MonoBehaviour
 {
-    public virtual void playerEntered() {}
+    protected Vector2Int mCell;
+
+    public virtual void init(Vector2Int cell)
+    {
+        mCell = cell;
+    }
+
+    public virtual void playerEntered() { }
 }
