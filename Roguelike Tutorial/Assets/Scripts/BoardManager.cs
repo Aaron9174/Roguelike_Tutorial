@@ -236,7 +236,8 @@ public class BoardManager : MonoBehaviour
         mEmptyCells.Remove(emptyCell);
 
         obj.init(emptyCell);
-        obj.transform.position = new Vector3(emptyCell.x, emptyCell.y, 0);
+        // obj.transform.position = new Vector3(emptyCell.x, emptyCell.y, 0);
+        obj.transform.position = cellToWorld(emptyCell);
         CellData cell = mBoardData[emptyCell.x, emptyCell.y];
         cell.mContainedObject = obj;
     }

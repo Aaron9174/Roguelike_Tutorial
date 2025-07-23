@@ -25,7 +25,7 @@ public class WallObject : CellObject
     public override bool playerWantsToEnter()
     {
         mHealthPoints--;
-        if (mHealthPoints > 1)
+        if (mHealthPoints > 0)
         {
             return false;
         }
