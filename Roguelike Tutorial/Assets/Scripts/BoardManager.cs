@@ -208,17 +208,9 @@ public class BoardManager : MonoBehaviour
         int foodAmount = Random.Range(mMinFoodAmount, mMaxFoodAmount);
         for (int i = 0; i < foodAmount; i++)
         {
-            int emptyCellIndex = Random.Range(0, mEmptyCells.Count);
-            Vector2Int emptyCell = mEmptyCells[emptyCellIndex];
-            CellData cell = mBoardData[emptyCell.x, emptyCell.y];
-
             int prefabIndex = Random.Range(0, mFoodPrefabs.Length);
             FoodObject newFood = Instantiate(mFoodPrefabs[prefabIndex]);
-            newFood.transform.position = cellToWorld(emptyCell);
-            cell.mContainedObject = newFood;
-
-            // Cell now has a food item, and is no longer empty
-            mEmptyCells.Remove(emptyCell);
+            addObject(newFood);
         }
     }
 
@@ -231,16 +223,21 @@ public class BoardManager : MonoBehaviour
 
         for (int i = 0; i < wallAmount; i++)
         {
-            int emptyCellIndex = Random.Range(0, mEmptyCells.Count);
-            Vector2Int emptyCell = mEmptyCells[emptyCellIndex];
-            mEmptyCells.Remove(emptyCell);
-
             WallObject wall = Instantiate(mWallPrefab);
-            wall.init(emptyCell);
-            wall.transform.position = new Vector3(emptyCell.x, emptyCell.y, 0);
-
-            CellData cell = mBoardData[emptyCell.x, emptyCell.y];
-            cell.mContainedObject = wall;
+            addObject(wall);
         }
+    }
+
+    void addObject(CellObject obj)
+    {
+        int emptyCellIndex = Random.Range(0, mEmptyCells.Count);
+
+        Vector2Int emptyCell = mEmptyCells[emptyCellIndex];
+        mEmptyCells.Remove(emptyCell);
+
+        obj.init(emptyCell);
+        obj.transform.position = new Vector3(emptyCell.x, emptyCell.y, 0);
+        CellData cell = mBoardData[emptyCell.x, emptyCell.y];
+        cell.mContainedObject = obj;
     }
 }
