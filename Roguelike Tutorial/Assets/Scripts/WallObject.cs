@@ -13,8 +13,8 @@ public class WallObject : CellObject
         GameManager.mInstance.mBoardManager.setBoardTile(mObstacleTile, cell);
     }
 
-    public override void playerEntered()
+    public override bool playerWantsToEnter()
     {
-        // Do something when player enters
+        return false;
     }
 }

@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6836eaa7c78c4a8c82bb61d92ddb8c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mObstacleTile: {fileID: 11400000, guid: 0428ec47b6ffb4a3aa82135b5d7127d6, type: 2}

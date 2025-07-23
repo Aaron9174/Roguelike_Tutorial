@@ -1,7 +1,3 @@
-using System;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Dependencies.NCalc;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -61,15 +57,27 @@ public class PlayerController : MonoBehaviour
             newCellPosition.x += 1;
         }
 
-        if (moveDetected && mBoardState.isPassable(newCellPosition))
+        if (moveDetected)
         {
             BoardManager.CellData cellData = mBoardState.getCellData(newCellPosition);
-            if (cellData.mContainedObject != null)
+
+            // This if for edge walls
+            if (cellData == null || !cellData.mIsPassable)
             {
+                return;
+            }
+            // Ground tiles 
+            else if (cellData.mContainedObject == null)
+            {
+                performMove(newCellPosition);
+            }
+            // Food or wall objects
+            else if (cellData.mContainedObject.playerWantsToEnter())
+            {
+                performMove(newCellPosition);
+
                 cellData.mContainedObject.playerEntered();
             }
-
-            performMove(newCellPosition);
         }
     }
 
