@@ -175,6 +175,11 @@ public class BoardManager : MonoBehaviour
         tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), tile);
     }
 
+    public Tile getCellTile(Vector2Int cell)
+    {
+        return tilemap.GetTile<Tile>(new Vector3Int(cell.x, cell.y, 0));
+    }
+
     /**
      * Determines if the coordinate is on an edge of a range
      * <param name="coordinate"> The coordinate to test </param>
