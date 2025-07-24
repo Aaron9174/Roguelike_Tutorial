@@ -4,7 +4,9 @@ using UnityEngine.Tilemaps;
 
 public class WallObject : CellObject
 {
-    public Tile mObstacleTile;
+    public Tile mObstacle;
+
+    public Tile mObstaclePartialDmg;
 
     private Tile mOriginalTile;
 
@@ -19,19 +21,22 @@ public class WallObject : CellObject
         mOriginalTile = GameManager.mInstance.mBoardManager.getCellTile(cell);
         mHealthPoints = maxHealth;
 
-        GameManager.mInstance.mBoardManager.setBoardTile(mObstacleTile, cell);
+        GameManager.mInstance.mBoardManager.setBoardTile(mObstacle, cell);
     }
 
     public override bool playerWantsToEnter()
     {
         mHealthPoints--;
-        if (mHealthPoints > 0)
+        switch (mHealthPoints)
         {
-            return false;
+            case 1:
+                GameManager.mInstance.mBoardManager.setBoardTile(mObstaclePartialDmg, mCell);
+                return false;
+            case 0:
+            default:
+            GameManager.mInstance.mBoardManager.setBoardTile(mOriginalTile, mCell);
+            Destroy(gameObject);
+                return true;
         }
-
-        GameManager.mInstance.mBoardManager.setBoardTile(mOriginalTile, mCell);
-        Destroy(gameObject);
-        return true;
     }
 }

@@ -67,7 +67,7 @@ public class BoardManager : MonoBehaviour
     public int mMaxFoodAmount;
 
     /// <summary> The wall prefab to spawn </summary>
-    public WallObject mWallPrefab;
+    public WallObject[] mBreakableWallPrefabs;
 
     /// <summary> This is the minimum amount of walls a level can start with </summary>
     public int mMinWallAmount;
@@ -220,10 +220,10 @@ public class BoardManager : MonoBehaviour
     void generateWalls()
     {
         int wallAmount = Random.Range(mMinWallAmount, mMaxWallAmount);
-
         for (int i = 0; i < wallAmount; i++)
         {
-            WallObject wall = Instantiate(mWallPrefab);
+            int wallIndex = Random.Range(0, mBreakableWallPrefabs.Length);
+            WallObject wall = Instantiate(mBreakableWallPrefabs[wallIndex]);
             addObject(wall);
         }
     }
@@ -236,7 +236,6 @@ public class BoardManager : MonoBehaviour
         mEmptyCells.Remove(emptyCell);
 
         obj.init(emptyCell);
-        // obj.transform.position = new Vector3(emptyCell.x, emptyCell.y, 0);
         obj.transform.position = cellToWorld(emptyCell);
         CellData cell = mBoardData[emptyCell.x, emptyCell.y];
         cell.mContainedObject = obj;
