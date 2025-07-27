@@ -76,6 +76,11 @@ public class BoardManager : MonoBehaviour
     public int mMaxWallAmount;
 
     /// <summary>
+    /// The exit prefab, only one spawned per level
+    /// </summary>
+    public ExitObject mExitPrefab;
+
+    /// <summary>
     /// A 2D array containing all of the cell data of the current board state
     /// </summary>
     private CellData[,] mBoardData;
@@ -129,6 +134,9 @@ public class BoardManager : MonoBehaviour
 
         // Remove the starting point from empty list, since the player will spawn here
         mEmptyCells.Remove(new Vector2Int(1, 1));
+
+        // Generate the exit on the gameboard
+        generateExit();
 
         // Generate the walls on the gameboard
         generateWalls();
@@ -198,6 +206,19 @@ public class BoardManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Generates the exit tile in the board state
+    /// </summary>
+    void generateExit()
+    {
+        ExitObject exit = Instantiate(mExitPrefab);
+
+        // Exit is always the top right hand corner of the playable map
+        Vector2Int exitCell = new Vector2Int(mWidth-2, mHeight-2);
+        addObject(exit, exitCell);
+        mEmptyCells.Remove(exitCell);
+    }
+
+    /// <summary>
     /// Generates food in the game board by <para />
     /// - Iterating over a set amount of food for the level <para />
     /// - Choosing a random spot passable and non-walled cell in the board data <para />
@@ -210,7 +231,12 @@ public class BoardManager : MonoBehaviour
         {
             int prefabIndex = Random.Range(0, mFoodPrefabs.Length);
             FoodObject newFood = Instantiate(mFoodPrefabs[prefabIndex]);
-            addObject(newFood);
+
+            // Get a random empty cell, add the food to that tile, and then remove the empty cell
+            int emptyCellIndex = Random.Range(0, mEmptyCells.Count);
+            Vector2Int emptyCell = mEmptyCells[emptyCellIndex];
+            addObject(newFood, emptyCell);
+            mEmptyCells.Remove(emptyCell);
         }
     }
 
@@ -224,17 +250,22 @@ public class BoardManager : MonoBehaviour
         {
             int wallIndex = Random.Range(0, mBreakableWallPrefabs.Length);
             WallObject wall = Instantiate(mBreakableWallPrefabs[wallIndex]);
-            addObject(wall);
+
+            // Grab a random empty cell,add wall to fill it, then remove the empty cell
+            int emptyCellIndex = Random.Range(0, mEmptyCells.Count);
+            Vector2Int emptyCell = mEmptyCells[emptyCellIndex];
+            addObject(wall, emptyCell);
+            mEmptyCells.Remove(emptyCell);
         }
     }
 
-    void addObject(CellObject obj)
+    /// <summary>
+    /// Adds an object to an empty cell
+    /// </summary>
+    /// <param name="obj"> The object to add </param>
+    /// <param name="emptyCell"> The position of the empty cell to fill </param>
+    void addObject(CellObject obj, Vector2Int emptyCell)
     {
-        int emptyCellIndex = Random.Range(0, mEmptyCells.Count);
-
-        Vector2Int emptyCell = mEmptyCells[emptyCellIndex];
-        mEmptyCells.Remove(emptyCell);
-
         obj.init(emptyCell);
         obj.transform.position = cellToWorld(emptyCell);
         CellData cell = mBoardData[emptyCell.x, emptyCell.y];

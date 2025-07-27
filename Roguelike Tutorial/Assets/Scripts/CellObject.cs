@@ -5,6 +5,9 @@ using UnityEngine;
 /// </summary>
 public class CellObject : MonoBehaviour
 {
+    /// <summary>
+    /// The passed in cell position
+    /// </summary>
     protected Vector2Int mCell;
 
     public virtual void init(Vector2Int cell)
