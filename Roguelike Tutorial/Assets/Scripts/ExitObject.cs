@@ -16,6 +16,6 @@ public class ExitObject : CellObject
     public override void playerEntered()
     {
         // TODO: start a new level
-        Debug.Log("Reached an exit tile!");
+        GameManager.mInstance.generateNewLevel();
     }
 }

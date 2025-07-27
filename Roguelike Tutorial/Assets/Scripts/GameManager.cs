@@ -1,4 +1,3 @@
-using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,6 +21,11 @@ public class GameManager : MonoBehaviour
     /// <summary> The food amount the player currently has </summary>
     private int mFoodAmount = 100;
 
+    private int levelCount = 1;
+
+    /// <summary>
+    /// The Unity Awake lifecycle hook
+    /// </summary>
     void Awake()
     {
         if (mInstance != null)
@@ -56,8 +60,28 @@ public class GameManager : MonoBehaviour
         mFoodLabel.text = "Food: " + mFoodAmount;
     }
 
+    /// <summary>
+    /// Changes the food amount
+    /// </summary>
+    /// <param name="amount"> The amount to change by </param>
     public void changeFood(int amount)
     {
         mFoodAmount += amount;
     }
+
+    /// <summary>
+    /// Genereates a new level by
+    /// - Cleaning up the current board state
+    /// - Initializing a new board
+    /// - Spawning the player in the starting position
+    /// - Incrementing the level count
+    /// </summary>
+    public void generateNewLevel()
+    {
+        mBoardManager.cleanUpBoard();
+        mBoardManager.initialize();
+        mPlayerController.spawn(mBoardManager, new Vector2Int(1, 1));
+        levelCount++;
+    }
+
 }

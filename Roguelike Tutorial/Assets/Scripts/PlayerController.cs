@@ -23,11 +23,8 @@ public class PlayerController : MonoBehaviour
     public void spawn(BoardManager boardManager, Vector2Int cell)
     {
         mBoardState = boardManager;
-        mCellPosition = cell;
 
-        // TODO: Do stuff on movement
         transform.position = boardManager.cellToWorld(cell);
-
         mCellPosition = cell;
     }
 
@@ -74,9 +71,9 @@ public class PlayerController : MonoBehaviour
             // Food or wall objects
             else if (cellData.mContainedObject.playerWantsToEnter())
             {
-                cellData.mContainedObject.playerEntered();
-
                 performMove(newCellPosition);
+
+                cellData.mContainedObject.playerEntered();
             }
         }
     }

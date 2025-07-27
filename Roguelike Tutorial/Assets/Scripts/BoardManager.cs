@@ -31,6 +31,17 @@ public class BoardManager : MonoBehaviour
         /// E.G. Food items
         /// </summary>
         public CellObject mContainedObject;
+
+        /// <summary>
+        /// Disposes of the cell data
+        /// </summary>
+        public void dispose()
+        {
+            if (mContainedObject != null)
+            {
+                Destroy(mContainedObject.gameObject);
+            }
+        }
     }
 
     /// <summary>
@@ -108,29 +119,8 @@ public class BoardManager : MonoBehaviour
         mBoardData = new CellData[mWidth, mHeight];
         mEmptyCells = new List<Vector2Int>();
 
-        for (int y = 0; y < mHeight; ++y)
-        {
-            bool isOnHeightEdge = isCoordinateOnEdge(y, 0, mHeight);
-            for (int x = 0; x < mWidth; ++x)
-            {
-                bool isOnWidthEdge = isCoordinateOnEdge(x, 0, mWidth);
-                if (isOnHeightEdge || isOnWidthEdge)
-                {
-                    int tileNumber = Random.Range(0, mWallTiles.Length);
-                    tilemap.SetTile(new Vector3Int(x, y, 0), mWallTiles[tileNumber]);
-
-                    mBoardData[x, y] = new CellData(false);
-                }
-                else
-                {
-                    int tileNumber = Random.Range(0, mGroundTiles.Length);
-                    tilemap.SetTile(new Vector3Int(x, y, 0), mGroundTiles[tileNumber]);
-
-                    mBoardData[x, y] = new CellData(true);
-                    mEmptyCells.Add(new Vector2Int(x, y));
-                }
-            }
-        }
+        // Generate the board state
+        generateBoard();
 
         // Remove the starting point from empty list, since the player will spawn here
         mEmptyCells.Remove(new Vector2Int(1, 1));
@@ -188,6 +178,30 @@ public class BoardManager : MonoBehaviour
         return tilemap.GetTile<Tile>(new Vector3Int(cell.x, cell.y, 0));
     }
 
+    /// <summary>
+    /// Cleans up the board by:
+    /// - Setting the tilemap tile to null
+    /// - Clearing the board data at all playable indexes
+    /// </summary>
+    public void cleanUpBoard()
+    {
+        // No board data to clean up
+        if (mBoardData == null)
+        {
+            return;
+        }
+
+        for (int x = 0; x < mWidth; x++)
+            {
+                for (int y = 0; y < mHeight; y++)
+                {
+                    setBoardTile(null, new Vector2Int(x, y));
+                    mBoardData[x, y].dispose();
+                }
+            }
+    }
+
+
     /**
      * Determines if the coordinate is on an edge of a range
      * <param name="coordinate"> The coordinate to test </param>
@@ -213,7 +227,7 @@ public class BoardManager : MonoBehaviour
         ExitObject exit = Instantiate(mExitPrefab);
 
         // Exit is always the top right hand corner of the playable map
-        Vector2Int exitCell = new Vector2Int(mWidth-2, mHeight-2);
+        Vector2Int exitCell = new Vector2Int(mWidth - 2, mHeight - 2);
         addObject(exit, exitCell);
         mEmptyCells.Remove(exitCell);
     }
@@ -270,5 +284,35 @@ public class BoardManager : MonoBehaviour
         obj.transform.position = cellToWorld(emptyCell);
         CellData cell = mBoardData[emptyCell.x, emptyCell.y];
         cell.mContainedObject = obj;
+    }
+
+    /// <summary>
+    /// Genereate the board state
+    /// </summary>
+    void generateBoard()
+    {
+        for (int y = 0; y < mHeight; ++y)
+        {
+            bool isOnHeightEdge = isCoordinateOnEdge(y, 0, mHeight);
+            for (int x = 0; x < mWidth; ++x)
+            {
+                bool isOnWidthEdge = isCoordinateOnEdge(x, 0, mWidth);
+                if (isOnHeightEdge || isOnWidthEdge)
+                {
+                    int tileNumber = Random.Range(0, mWallTiles.Length);
+                    tilemap.SetTile(new Vector3Int(x, y, 0), mWallTiles[tileNumber]);
+
+                    mBoardData[x, y] = new CellData(false);
+                }
+                else
+                {
+                    int tileNumber = Random.Range(0, mGroundTiles.Length);
+                    tilemap.SetTile(new Vector3Int(x, y, 0), mGroundTiles[tileNumber]);
+
+                    mBoardData[x, y] = new CellData(true);
+                    mEmptyCells.Add(new Vector2Int(x, y));
+                }
+            }
+        }
     }
 }
