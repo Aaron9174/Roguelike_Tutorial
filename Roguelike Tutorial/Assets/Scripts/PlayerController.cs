@@ -74,9 +74,9 @@ public class PlayerController : MonoBehaviour
             // Food or wall objects
             else if (cellData.mContainedObject.playerWantsToEnter())
             {
-                performMove(newCellPosition);
-
                 cellData.mContainedObject.playerEntered();
+
+                performMove(newCellPosition);
             }
         }
     }
