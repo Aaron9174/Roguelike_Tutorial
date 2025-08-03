@@ -44,5 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6836eaa7c78c4a8c82bb61d92ddb8c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mObstacleTile: {fileID: 11400000, guid: 5669f2bf026614d7889e5cbedcd5e7be, type: 2}
-  maxHealth: 3
+  mObstacle: {fileID: 11400000, guid: ac98eb242719f4ec3b9794ebf140807a, type: 2}
+  mObstaclePartialDmg: {fileID: 11400000, guid: 70e88e7780d7c43b59ea9b2e9b40b6ab, type: 2}
+  maxHealth: 2
