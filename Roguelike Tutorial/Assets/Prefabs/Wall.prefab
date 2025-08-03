@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mObstacle: {fileID: 11400000, guid: 48746b6fa963141cc8e0eed1b90ae090, type: 2}
-  mObstaclePartialDmg: {fileID: 11400000, guid: c9f84d37151d64db998e158e2dff9b99, type: 2}
+  mObstaclePartialDmg: {fileID: 11400000, guid: 65eedce11945f443da4af799370f448c, type: 2}
   maxHealth: 2

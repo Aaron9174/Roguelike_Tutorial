@@ -305,10 +305,22 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 29ffb47fc34d04ae2a0c452d63966b15, type: 2}
   - {fileID: 11400000, guid: 03ed41ae1080c4597ba0fd4f7bda525e, type: 2}
   mFoodPrefabs:
-  - {fileID: 7513100577493552607, guid: 4fac4c36928bc41a0af5e809e60be5e9, type: 3}
-  - {fileID: 7792158962981218604, guid: d3dd300538f5141aaa3b22e7351cf401, type: 3}
+  - {fileID: 9072229549917261089, guid: 4fac4c36928bc41a0af5e809e60be5e9, type: 3}
+  - {fileID: 7944542985993993596, guid: d3dd300538f5141aaa3b22e7351cf401, type: 3}
+  - {fileID: 8667545220877793613, guid: 9d1df862e74f141dda4b8aa7c077c903, type: 3}
+  - {fileID: 2882092063953457562, guid: 1446429dcaf344bfe8eb26a739125a01, type: 3}
+  - {fileID: 7286954965453920373, guid: 379662c2de0e2451bb8e8b073307423b, type: 3}
+  - {fileID: 3544424618133381645, guid: 5045dcf0747cf43bbb205a6a8b0dfef0, type: 3}
   mMinFoodAmount: 1
   mMaxFoodAmount: 3
+  mBreakableWallPrefabs:
+  - {fileID: 2637984918386913807, guid: efa8db32ed59549e29344e20fb365310, type: 3}
+  - {fileID: 2637984918386913807, guid: 54f6f400541c445e9bede4d81a8072a2, type: 3}
+  - {fileID: 2637984918386913807, guid: 764f9a343298747f9beada173e533203, type: 3}
+  - {fileID: 2637984918386913807, guid: 8cf06c1040e6c467c98ab5ac4b422439, type: 3}
+  mMinWallAmount: 2
+  mMaxWallAmount: 4
+  mExitPrefab: {fileID: 5129085881217872313, guid: 8eefce917c519469b9b791f9197ddc37, type: 3}
 --- !u!1 &794946428 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9008518819261783545, guid: e7c924801023f4936a8604f637840acb, type: 3}
