@@ -230,6 +230,7 @@ MonoBehaviour:
   mBoardManager: {fileID: 617842412}
   mPlayerController: {fileID: 2108414367}
   uiDocument: {fileID: 1297261319}
+  mFoodAmount: 10
 --- !u!1 &617842408
 GameObject:
   m_ObjectHideFlags: 0

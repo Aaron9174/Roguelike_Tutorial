@@ -15,13 +15,33 @@ public class GameManager : MonoBehaviour
     /// <summary> Player controller reference </summary>
     public PlayerController mPlayerController;
 
+    /// <summary>
+    /// The UI document for displaying the games UI
+    /// </summary>
     public UIDocument uiDocument;
+
+    /// <summary>
+    /// The food label
+    /// </summary>
     private Label mFoodLabel;
 
     /// <summary> The food amount the player currently has </summary>
-    private int mFoodAmount = 100;
+    public int mFoodAmount;
 
-    private int levelCount = 1;
+    /// <summary>
+    /// The game over panel displayed when the player loses
+    /// </summary>
+    private VisualElement mGameOverPanel;
+
+    /// <summary>
+    /// TODO: docs
+    /// </summary>
+    private Label mGameOverLabel;
+
+    /// <summary>
+    /// The current level count
+    /// </summary>
+    private int mLevelCount = 1;
 
     /// <summary>
     /// The Unity Awake lifecycle hook
@@ -51,6 +71,10 @@ public class GameManager : MonoBehaviour
         VisualElement ve = uiDocument.rootVisualElement;
         mFoodLabel = ve.Q<Label>("FoodLabel");
         mFoodLabel.text = "Food : " + mFoodAmount;
+
+        mGameOverPanel = ve.Q<VisualElement>("GameOverPanel");
+        mGameOverPanel.style.visibility = Visibility.Hidden;
+        mGameOverLabel = mGameOverPanel.Q<Label>("GameOverMessage");
     }
 
     /// <summary> Used as a delegate to run once per turn </summary>
@@ -58,6 +82,7 @@ public class GameManager : MonoBehaviour
     {
         changeFood(-1);
         mFoodLabel.text = "Food: " + mFoodAmount;
+        checkGameOver();
     }
 
     /// <summary>
@@ -67,6 +92,20 @@ public class GameManager : MonoBehaviour
     public void changeFood(int amount)
     {
         mFoodAmount += amount;
+    }
+
+    /// <summary>
+    /// TODO: docs
+    /// </summary>
+    /// <returns></returns>
+    private void checkGameOver()
+    {
+        if (mFoodAmount <= 0)
+        {
+            mGameOverPanel.style.visibility = Visibility.Visible;
+            mGameOverLabel.text = "Game Over\n\nMax Level Achieved: " + mLevelCount;
+            mLevelCount = 1;
+        }
     }
 
     /// <summary>
@@ -81,7 +120,7 @@ public class GameManager : MonoBehaviour
         mBoardManager.cleanUpBoard();
         mBoardManager.initialize();
         mPlayerController.spawn(mBoardManager, new Vector2Int(1, 1));
-        levelCount++;
+        mLevelCount++;
     }
 
 }
