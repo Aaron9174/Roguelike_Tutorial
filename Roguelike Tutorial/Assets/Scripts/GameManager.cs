@@ -100,11 +100,13 @@ public class GameManager : MonoBehaviour
     /// <returns></returns>
     private void checkGameOver()
     {
-        if (mFoodAmount <= 0)
+        bool playerIsDead = mFoodAmount <= 0;
+        if (playerIsDead)
         {
             mGameOverPanel.style.visibility = Visibility.Visible;
-            mGameOverLabel.text = "Max Level Achieved: " + mLevelCount;
+            mGameOverLabel.text = "Survived " + mLevelCount + " days";
             mLevelCount = 1;
+            mPlayerController.mIsGameOver = true;
         }
     }
 

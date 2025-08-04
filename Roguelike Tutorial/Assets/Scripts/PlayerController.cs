@@ -7,12 +7,9 @@ public class PlayerController : MonoBehaviour
     private BoardManager mBoardState;
 
     /// <summary>
-    /// Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// TODO: docs
     /// </summary>
-    void Start()
-    {
-
-    }
+    public bool mIsGameOver = false;
 
     // Update is called once per frame
     void Update()
@@ -30,6 +27,11 @@ public class PlayerController : MonoBehaviour
 
     private void controlPlayer()
     {
+        if (mIsGameOver)
+        {
+            return;
+        }
+
         Vector2Int newCellPosition = mCellPosition;
         bool moveDetected = false;
 
