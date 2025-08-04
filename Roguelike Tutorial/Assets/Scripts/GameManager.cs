@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
 
         mGameOverPanel = ve.Q<VisualElement>("GameOverPanel");
         mGameOverPanel.style.visibility = Visibility.Hidden;
-        mGameOverLabel = mGameOverPanel.Q<Label>("GameOverMessage");
+        mGameOverLabel = mGameOverPanel.Q<Label>("GameOverLevelMessage");
     }
 
     /// <summary> Used as a delegate to run once per turn </summary>
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
         if (mFoodAmount <= 0)
         {
             mGameOverPanel.style.visibility = Visibility.Visible;
-            mGameOverLabel.text = "Game Over\n\nMax Level Achieved: " + mLevelCount;
+            mGameOverLabel.text = "Max Level Achieved: " + mLevelCount;
             mLevelCount = 1;
         }
     }
