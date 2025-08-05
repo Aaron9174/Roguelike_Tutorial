@@ -1,8 +1,13 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
+    // TODO: add constant docs
+    private const int STARTING_FOOD_DEFAULT = 10;
+    private const int STARTING_LEVEL_COUNT = 1;
+
     /// <summary> Gets access to an instance of the game manager </summary>
     public static GameManager mInstance { get; private set; }
 
@@ -26,7 +31,7 @@ public class GameManager : MonoBehaviour
     private Label mFoodLabel;
 
     /// <summary> The food amount the player currently has </summary>
-    public int mFoodAmount;
+    private int mFoodAmount = STARTING_FOOD_DEFAULT;
 
     /// <summary>
     /// The game over panel displayed when the player loses
@@ -39,9 +44,19 @@ public class GameManager : MonoBehaviour
     private Label mGameOverLabel;
 
     /// <summary>
+    /// TODO: docs
+    /// </summary>
+    private Button mRestartBtn;
+
+    /// <summary>
+    /// TODO: docs
+    /// </summary>
+    private Button mExitBtn;
+
+    /// <summary>
     /// The current level count
     /// </summary>
-    private int mLevelCount = 1;
+    private int mLevelCount = STARTING_LEVEL_COUNT;
 
     /// <summary>
     /// The Unity Awake lifecycle hook
@@ -75,6 +90,12 @@ public class GameManager : MonoBehaviour
         mGameOverPanel = ve.Q<VisualElement>("GameOverPanel");
         mGameOverPanel.style.visibility = Visibility.Hidden;
         mGameOverLabel = mGameOverPanel.Q<Label>("GameOverLevelMessage");
+        mRestartBtn = mGameOverPanel.Q<Button>("RestartButton");
+        mRestartBtn.style.visibility = Visibility.Hidden;
+        mRestartBtn.clicked += restartGame;
+        mExitBtn = mGameOverPanel.Q<Button>("ExitButton");
+        mExitBtn.clicked += exitGame;
+        mExitBtn.style.visibility = Visibility.Hidden;
     }
 
     /// <summary> Used as a delegate to run once per turn </summary>
@@ -105,8 +126,10 @@ public class GameManager : MonoBehaviour
         {
             mGameOverPanel.style.visibility = Visibility.Visible;
             mGameOverLabel.text = "Survived " + mLevelCount + " days";
-            mLevelCount = 1;
+            mLevelCount = STARTING_LEVEL_COUNT;
             mPlayerController.mIsGameOver = true;
+            mExitBtn.style.visibility = Visibility.Visible;
+            mRestartBtn.style.visibility = Visibility.Visible;
         }
     }
 
@@ -123,6 +146,37 @@ public class GameManager : MonoBehaviour
         mBoardManager.initialize();
         mPlayerController.spawn(mBoardManager, new Vector2Int(1, 1));
         mLevelCount++;
+    }
+
+    /// <summary>
+    /// TODO: docs
+    /// </summary>
+    private void restartGame()
+    {
+        // TODO: refactor this logic with shared logic in the initialization and the logic in the checkGameOver
+        mExitBtn.style.visibility = Visibility.Hidden;
+        mRestartBtn.style.visibility = Visibility.Hidden;
+        mGameOverPanel.style.visibility = Visibility.Hidden;
+        mPlayerController.mIsGameOver = false;
+        // TODO: remove magic number
+        mFoodAmount = STARTING_FOOD_DEFAULT;
+        generateNewLevel();
+    }
+
+    /// <summary>
+    /// TODO: docs
+    /// TODO: look into macros(?) for C#
+    /// </summary>
+    private void exitGame()
+    {
+        // This line is for quitting in the Unity Editor
+        #if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+        // This line is for quitting in a built application
+        #else
+                Application.Quit();
+        #endif
+            Debug.Log("Application Quit.");
     }
 
 }
