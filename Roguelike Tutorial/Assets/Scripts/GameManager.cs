@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     // TODO: add constant docs
     private const int STARTING_FOOD_DEFAULT = 10;
-    private const int STARTING_LEVEL_COUNT = 1;
+    private const int STARTING_LEVEL_COUNT = 0;
 
     /// <summary> Gets access to an instance of the game manager </summary>
     public static GameManager mInstance { get; private set; }
@@ -157,10 +157,13 @@ public class GameManager : MonoBehaviour
         mExitBtn.style.visibility = Visibility.Hidden;
         mRestartBtn.style.visibility = Visibility.Hidden;
         mGameOverPanel.style.visibility = Visibility.Hidden;
-        mPlayerController.mIsGameOver = false;
-        // TODO: remove magic number
-        mFoodAmount = STARTING_FOOD_DEFAULT;
+
         generateNewLevel();
+
+        mPlayerController.mIsGameOver = false;
+        mFoodAmount = STARTING_FOOD_DEFAULT;
+        mFoodLabel.text = "Food: " + mFoodAmount;
+        mLevelCount = STARTING_LEVEL_COUNT;
     }
 
     /// <summary>
