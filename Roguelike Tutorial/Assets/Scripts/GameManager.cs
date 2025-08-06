@@ -88,14 +88,13 @@ public class GameManager : MonoBehaviour
         mFoodLabel.text = "Food : " + mFoodAmount;
 
         mGameOverPanel = ve.Q<VisualElement>("GameOverPanel");
-        mGameOverPanel.style.visibility = Visibility.Hidden;
         mGameOverLabel = mGameOverPanel.Q<Label>("GameOverLevelMessage");
         mRestartBtn = mGameOverPanel.Q<Button>("RestartButton");
-        mRestartBtn.style.visibility = Visibility.Hidden;
         mRestartBtn.clicked += restartGame;
         mExitBtn = mGameOverPanel.Q<Button>("ExitButton");
         mExitBtn.clicked += exitGame;
-        mExitBtn.style.visibility = Visibility.Hidden;
+
+        toggleUI(false);
     }
 
     /// <summary> Used as a delegate to run once per turn </summary>
@@ -109,6 +108,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Changes the food amount
     /// </summary>
+    /// TODO: these style params don't work, update them
     /// <param name="amount"> The amount to change by </param>
     public void changeFood(int amount)
     {
@@ -124,12 +124,10 @@ public class GameManager : MonoBehaviour
         bool playerIsDead = mFoodAmount <= 0;
         if (playerIsDead)
         {
-            mGameOverPanel.style.visibility = Visibility.Visible;
             mGameOverLabel.text = "Survived " + mLevelCount + " days";
             mLevelCount = STARTING_LEVEL_COUNT;
             mPlayerController.mIsGameOver = true;
-            mExitBtn.style.visibility = Visibility.Visible;
-            mRestartBtn.style.visibility = Visibility.Visible;
+            toggleUI(true);
         }
     }
 
@@ -153,10 +151,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void restartGame()
     {
-        // TODO: refactor this logic with shared logic in the initialization and the logic in the checkGameOver
-        mExitBtn.style.visibility = Visibility.Hidden;
-        mRestartBtn.style.visibility = Visibility.Hidden;
-        mGameOverPanel.style.visibility = Visibility.Hidden;
+        toggleUI(false);
 
         generateNewLevel();
 
@@ -167,19 +162,32 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Toggles the UI visibility
+    /// TODO: update param style
+    /// <param name="enable"> If true, makes the UI visible. Otherwise, hides the UI. </param>
+    /// </summary>
+    private void toggleUI(bool enable)
+    {
+        Visibility v = enable ? Visibility.Visible : Visibility.Hidden;
+        mExitBtn.style.visibility = v;
+        mRestartBtn.style.visibility = v;
+        mGameOverPanel.style.visibility = v;
+    }
+
+    /// <summary>
     /// TODO: docs
     /// TODO: look into macros(?) for C#
     /// </summary>
     private void exitGame()
     {
         // This line is for quitting in the Unity Editor
-        #if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
         // This line is for quitting in a built application
-        #else
+#else
                 Application.Quit();
-        #endif
-            Debug.Log("Application Quit.");
+#endif
+        Debug.Log("Application Quit.");
     }
 
 }
