@@ -192,13 +192,13 @@ public class BoardManager : MonoBehaviour
         }
 
         for (int x = 0; x < mWidth; x++)
+        {
+            for (int y = 0; y < mHeight; y++)
             {
-                for (int y = 0; y < mHeight; y++)
-                {
-                    setBoardTile(null, new Vector2Int(x, y));
-                    mBoardData[x, y].dispose();
-                }
+                setBoardTile(null, new Vector2Int(x, y));
+                mBoardData[x, y].dispose();
             }
+        }
     }
 
 
