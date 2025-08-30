@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour
 
         Vector2Int newCellPosition = mCellPosition;
         bool moveDetected = false;
-
         if (Keyboard.current.wKey.wasPressedThisFrame)
         {
             moveDetected = true;
